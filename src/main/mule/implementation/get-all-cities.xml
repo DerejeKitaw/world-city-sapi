@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="world-city-sapiFlow" doc:id="4ad29c8a-f511-4bf8-af85-7593d364657e" >
+		<http:listener doc:name="Listener" doc:id="261ea780-e41a-4747-b340-ede5626b1838" path="/city" config-ref="HTTP_Listener_config"/>
+		<db:select doc:name="Select" doc:id="6c48930b-1d6b-4f9e-8813-7e32ead0c3ee" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM world.city]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="497e4ee0-59f4-45f2-881e-d15482b7c58a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
